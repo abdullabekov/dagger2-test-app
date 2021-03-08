@@ -1,5 +1,7 @@
 package com.techyourchance.dagger2course.questions
 
+import android.os.Build
+import android.text.Html
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import kotlinx.coroutines.CancellationException
@@ -8,26 +10,27 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class FetchQuestionsUseCase {
+class FetchQuestionDetailsUseCase {
     // init retrofit
     private val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    private val stackoverflowApi: StackoverflowApi =
-            retrofit.create(StackoverflowApi::class.java)
+    private val stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
     sealed class Result() {
-        class Success(val questions: List<Question>) : Result()
+        class Success(val questionBody: String) : Result()
         object Failure: Result()
     }
 
-    suspend fun fetchLatestQuestions(): Result {
+    suspend fun fetchQuestionDetails(questionId: String): Result {
         return withContext(Dispatchers.IO) {
             try {
-                val response = stackoverflowApi.lastActiveQuestions(20)
+                val response = stackoverflowApi.questionDetails(questionId)
                 if (response.isSuccessful && response.body() != null) {
-                    return@withContext Result.Success(response.body()!!.questions)
+                    val questionBody = response.body()!!.question.body
+                    return@withContext Result.Success(questionBody)
+
                 } else {
                     return@withContext Result.Failure
                 }
