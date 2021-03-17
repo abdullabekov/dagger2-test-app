@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class FetchQuestionDetailsUseCase(private val stackoverflowApi: StackoverflowApi) {
 
     sealed class Result() {
-        class Success(val questionBody: String) : Result()
+        data class Success(val questionBody: String) : Result()
         object Failure : Result()
     }
 

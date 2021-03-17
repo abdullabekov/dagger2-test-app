@@ -8,10 +8,14 @@ import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.screens.common.viewsmvc.ViewMvcFactory
 
-class ActivityCompositionRoot(private val activity: AppCompatActivity, private val appCompositionRoot: AppCompositionRoot) {
+class ActivityCompositionRoot(
+        private val activity: AppCompatActivity,
+        private val appCompositionRoot: AppCompositionRoot
+) {
     val screensNavigator by lazy {
         ScreensNavigator(activity)
     }
+    val application get() = appCompositionRoot.application
     val layoutInflater get() = activity.layoutInflater
     val fragmentManager get() = activity.supportFragmentManager
     val stackOverflowApi get() = appCompositionRoot.stackOverflowApi
