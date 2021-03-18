@@ -5,12 +5,10 @@ import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.screens.common.viewsmvc.ViewMvcFactory
-import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
-import com.techyourchance.dagger2course.screens.questionslist.QuestionsListFragment
 import java.lang.Exception
 import java.lang.reflect.Field
 
-class Injector(private val compositionRoot: PresentationCompositionRoot) {
+class Injector(private val component: PresentationComponent) {
     fun inject(client: Any) {
         for (field in getAllFields(client)) {
             if (isAnnotatedForInjection(field)) {
@@ -28,11 +26,11 @@ class Injector(private val compositionRoot: PresentationCompositionRoot) {
 
     private fun getServiceForClass(type: Class<*>): Any {
         return when (type) {
-            DialogsNavigator::class.java -> compositionRoot.dialogsNavigator
-            ScreensNavigator::class.java -> compositionRoot.screensNavigator
-            FetchQuestionsUseCase::class.java -> compositionRoot.fetchQuestionsUseCase
-            FetchQuestionDetailsUseCase::class.java -> compositionRoot.fetchQuestionDetailsUseCase
-            ViewMvcFactory::class.java -> compositionRoot.viewMvcFactory
+            DialogsNavigator::class.java -> component.dialogsNavigator()
+            ScreensNavigator::class.java -> component.screensNavigator()
+            FetchQuestionsUseCase::class.java -> component.fetchQuestionsUseCase()
+            FetchQuestionDetailsUseCase::class.java -> component.fetchQuestionDetailsUseCase()
+            ViewMvcFactory::class.java -> component.viewMvcFactory()
             else -> throw Exception("unsupported service type: $type")
         }
     }
