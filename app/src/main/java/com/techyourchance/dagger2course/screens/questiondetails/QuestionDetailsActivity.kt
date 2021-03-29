@@ -61,12 +61,7 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
             try {
                 when (val result = fetchQuestionDetailsUseCase.fetchQuestionDetails(questionId)) {
                     is FetchQuestionDetailsUseCase.Result.Success -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            viewMvc.setQuestionBodyText(Html.fromHtml(result.questionBody, Html.FROM_HTML_MODE_LEGACY))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            viewMvc.setQuestionBodyText(Html.fromHtml(result.questionBody))
-                        }
+                        viewMvc.bindQuestionWithBody(result.questionBody)
                     }
                     is FetchQuestionDetailsUseCase.Result.Failure -> onFetchFailed()
                 }
