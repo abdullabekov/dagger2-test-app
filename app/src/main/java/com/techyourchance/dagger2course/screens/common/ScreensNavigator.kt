@@ -6,11 +6,7 @@ import com.techyourchance.dagger2course.common.di.activity.ActivityScope
 import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
 import javax.inject.Inject
 
-class ScreensNavigator (private val activity: AppCompatActivity) {
-    fun navigateBack() {
-        activity.onBackPressed()
-    }
-    fun toQuestionDetails(questionId: String) {
-        QuestionDetailsActivity.start(activity, questionId)
-    }
+interface ScreensNavigator {
+    fun navigateBack()
+    fun toQuestionDetails(questionId: String)
 }
