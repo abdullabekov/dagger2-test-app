@@ -11,7 +11,6 @@ import dagger.Provides
 @Module
 abstract class ActivityModule {
 
-
     @ActivityScope
     @Binds
     abstract fun screensNavigator(screensNavigatorImpl: ScreensNavigatorImpl): ScreensNavigator
