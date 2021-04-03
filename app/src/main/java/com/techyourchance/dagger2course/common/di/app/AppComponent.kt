@@ -12,10 +12,8 @@ import javax.inject.Singleton
 @AppScope
 @Component(modules = [AppModule::class])
 interface AppComponent {
-    fun application(): Application
-    fun stackoverflowApi(): StackoverflowApi
 
-    fun newActivityComponent(activityModule: ActivityModule): ActivityComponent
+    fun newActivityComponentBuilder(): ActivityComponent.Builder
 
     fun newServiceComponent(serviceModule: ServiceModule): ServiceComponent
 }

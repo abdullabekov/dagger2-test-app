@@ -7,8 +7,13 @@ import com.techyourchance.dagger2course.common.di.activity.ActivityModule
 
 open class BaseActivity : AppCompatActivity() {
 
-    val activityComponent: ActivityComponent by lazy {
-        (application as MyApplication).appComponent.newActivityComponent(ActivityModule(this))
+    private val appComponent get() = (application as MyApplication).appComponent
+
+    val activityComponent by lazy {
+        appComponent.newActivityComponentBuilder()
+                .activity(this)
+                .activityModule(ActivityModule)
+                .build()
     }
 
     private val presentationComponent by lazy {
